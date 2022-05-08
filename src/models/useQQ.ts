@@ -6,6 +6,10 @@ import { fetchUser } from "../services/qq";
  */
 export function useQQ() {
   const { data, state, onChangeParams } = useFetch(fetchUser);
+  /**
+   * 
+   * @param qq 
+   */
   const onSearch = (qq: any) => {
     onChangeParams({qq});
   };
