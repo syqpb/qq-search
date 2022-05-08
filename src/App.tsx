@@ -1,24 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useEffect, useMemo } from "react";
+import "./App.css";
+import Search from "./components/Search";
+import Loading from "./components/Loading";
+// import { Toast } from './components/Toast';
+import Avatar from "./components/Avatar";
+import { useQQ } from "./models/useQQ";
+import { debounce } from "lodash-es";
+import { isQQ } from "./utils";
 function App() {
+  const { data, state, onSearch } = useQQ();
+
+  const onSearchQQ = debounce((qq: string) => {
+     onSearch(qq);
+  }, 500);
+  useEffect(() => {
+    if (data?.msg) {
+      console.log(data.msg);
+    }
+  }, [data]);
+  /**
+   * 加载占位符
+   */
+  const placeholder = useMemo(() => {
+    if (state.isLoading || state.isError) {
+      return <Loading />;
+      // eslint-disable-next-line no-mixed-operators
+    } else if (state.isError || (data && data.code !== 1)) {
+      return data?.msg || "Error";
+    } else if (data && data.code === 1) {
+      return (
+        <Avatar
+          src={data?.qlogo}
+          alt={data?.qq}
+          qq={data?.qq}
+          nickname={data?.name}
+        />
+      );
+    }
+  }, [state, data]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>QQ号查询</h1>
+      <Search onSearch={onSearchQQ}>{placeholder}</Search>
     </div>
   );
 }
