@@ -3,7 +3,7 @@ import { ServerResponse } from "../types/common";
 
 
 
-type ILvzuan = {
+export type ILvzuan = {
     code:number;
     subcode:number;
     level:number;
@@ -14,7 +14,10 @@ type ILvzuan = {
     isyear:number;
     vendor:number;
 }
-type IUser = {
+/**
+ * qq用户数据
+ */
+export type IUser = {
     qq:string;
     name:string;
     qlogo:string;

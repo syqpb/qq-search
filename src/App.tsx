@@ -6,7 +6,6 @@ import Loading from "./components/Loading";
 import Avatar from "./components/Avatar";
 import { useQQ } from "./models/useQQ";
 import { debounce } from "lodash-es";
-import { isQQ } from "./utils";
 function App() {
   const { data, state, onSearch } = useQQ();
 
